@@ -1,0 +1,69 @@
+Multimídia e Hipermídia
+Trabalho 1 - Compressão de imagem digital
+
+Nomes:
+Laís Pessine do Carmo	n usp: 7546760
+Rafael Seiji Ishibe	n usp: 7173570
+
+/*--------------------------- Compilador utilizado ---------------------------*/
+
+A versão do compilador utilizada foi a GCC 4.9.2;
+
+/*-------------------------- Bibliotecas adicionais --------------------------*/
+
+Nenhuma biblioteca adicional foi utilizada.
+
+/*--------------------------- Algoritmos utilizados --------------------------*/
+
+	A compressão pode ser codificada de duas formas: sem perdas ou com perdas.
+	A codificação sem perdas utiliza o algoritmo de diferenças.
+	A codificação com perdas utiliza o algoritmo da transformada dos cossenos (DCT).
+	Ao final da atuação de qualquer um deles, o algoritmo de Huffman é utilizado para aumentar a compressão. 
+	Na descompressão, é aplicado o inverso de um desses algoritmos, de acordo com os comandos de entrada do usuário.
+
+/*---------------------------- Estruturas de dados ---------------------------*/
+
+Imagem Bitmap:
+
+	O header da imagem é armazenado em duas structs, sendo uma para informações gerais do arquivo e outra para informações da imagem representada no arquivo. As informações nelas contidas serão usadas como parâmetros na compressão e depois para a reconstrução das imagens.
+
+Algoritimo de diferenças:
+
+	No caso do algoritmo de diferenças, os valores de diferença de uma imagem são armazenados em uma lista (array) onde cada elemento é uma struct. Esta struct contém o valor da diferença bem como o número de bits correspondente.
+
+Algoritmo DCT
+
+Algoritmo de Huffman
+
+	Uma struct serve de tabela de referencia, armazenando os codigos Huffman gerados e seus tamanhos, sendo usada para salvar e carregar o arquivo.
+	Outras 3 structs constituem a árvores de Huffman. São elas:
+
+	- Child: Elemento genérico da árvore. Pde ser uma Cell ou Node e armazena um valor (0 ou 1).
+	- Cell: Elemento que está no meio da árvore (não folha). Aponta para outros dois elementos filhos e armazena frequências intermediárias.
+	- Node: Elemento folha. Armazena valor final correspondente ao código. 
+
+
+/*--------------------------------- Utilização --------------------------------*/
+
+	Após compilação do arquivo MakeFile utilizando o comando make na linha de comnado, a linha para a execução do código deve ter o seguinte formato:
+
+./huff arquivo_entrada arquivo_saida alg
+
+Onde
+
+- arquivo_entrada é a o nome do arquivo de entrada com sua extensão (.bmp ou .huff),
+
+- arquivo_saida é a o nome do arquivo de saida com sua extensão (.bmp ou .huff),
+
+- alg é a opção de algoritmo que se deseja utilizar, podendo ser:
+	-dif (ou -DIF): algoritmo de diferenças
+	-dct (ou -DCT): algoritmo DCT
+	-dif+dct (ou -DIF+DCT): algoritmo de diferenças + algoritmo DCT	
+	-dct+dif (ou -DCT+DIF): algoritmo DCT + algoritmo de diferenças
+
+- Compressão: ocorre quando o arquivo_entrada tiver a extensão .bmp e o de saída a .huff.
+
+- Descompressão: ocorre quando o arquivo_entrada tiver a extensão .huff e o de saída a .bmp.
+
+	Caso a entrada esteja em um formato diferente do descrito acima, o programa informará um erro indicando a falha encontrada.
+	Caso a entrada esteja correta, o programa informará detalhes do tipo de procedimento escolhido e o realizará em seguida.
