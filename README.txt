@@ -1,3 +1,5 @@
+(ATUALIZAR ISSO)
+
 1 - Compilação
 	Para compilar em Linux basta rodar:
 		$ make
