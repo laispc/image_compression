@@ -38,9 +38,9 @@ Algoritmo de Huffman
 	Uma struct serve de tabela de referencia, armazenando os codigos Huffman gerados e seus tamanhos, sendo usada para salvar e carregar o arquivo.
 	Outras 3 structs constituem a árvores de Huffman. São elas:
 
-	- Child: Elemento genérico da árvore. Pde ser uma Cell ou Node e armazena um valor (0 ou 1).
-	- Cell: Elemento que está no meio da árvore (não folha). Aponta para outros dois elementos filhos e armazena frequências intermediárias.
-	- Node: Elemento folha. Armazena valor final correspondente ao código. 
+	- HuffmanChild: Elemento genérico da árvore. Pode ser uma Cell ou Node e armazena um valor (0 ou 1).
+	- HuffmanCell: Elemento que está no meio da árvore (não folha). Aponta para outros dois elementos filhos e armazena frequências intermediárias.
+	- HuffmanNode: Elemento folha. Armazena valor final correspondente ao código. 
 
 
 /*--------------------------------- Utilização --------------------------------*/

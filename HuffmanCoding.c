@@ -2,6 +2,8 @@
 #include "HuffmanCoding.h"
 #include "PriorityList.h"
 
+/* Conjunto de rotinas para realização do algoritmo de Huffman. */
+
 /*#define __DEBUG__*/
 
 /*Inicializa a cricao da arvore com uma raiz vaiza
@@ -92,6 +94,7 @@ HuffmanNode *generateTree(HuffmanNode *head, HuffmanCell *cells, int numCells){
 		auxChild->box = auxPriorityCell.box;
 		frqcySum = auxPriorityCell.value;
 
+/* Função de debug */
 #ifdef __DEBUG__
 		printf("Incerted Cell: \n");
 		if (auxChild->ref == 1)
@@ -115,6 +118,7 @@ HuffmanNode *generateTree(HuffmanNode *head, HuffmanCell *cells, int numCells){
 		auxChild->box = auxPriorityCell.box;
 		frqcySum += auxPriorityCell.value;
 
+/* Função de debug */
 #ifdef __DEBUG__
 		printf("Incerted Cell: \n");
 		if (auxChild->ref == 1)
@@ -192,7 +196,7 @@ HuffmanCell *generateCellList(Dlist_ *list, unsigned int numElements, int *numCe
 	return cells;
 }
 
-/*  */
+/* Imprime uma lista de Huffman */
 void printHuffmanList(HuffmanCell *list, int numCells){
 	int i = 0;
 	for (i = 0; i < numCells; ++i)
@@ -202,6 +206,7 @@ void printHuffmanList(HuffmanCell *list, int numCells){
 	}
 }
 
+/* Inicializa um veetor com zero */
 void zeros(int a[], int n){
 	int i = 0;
 	for (i = 0; i < n; ++i)
@@ -210,6 +215,7 @@ void zeros(int a[], int n){
 	}
 }
 
+/* Imprime vetor */
 void printv2(int a[],int n){
 	int i = 0;
 	for (i = 0; i < n; ++i)
@@ -219,6 +225,8 @@ void printv2(int a[],int n){
 	printf("\n");
 }
 
+/* Busca uma mascara na arvore de Huffman, que serve de referencia par ajuntar bits. 
+Retorno: mascara*/
 unsigned char searchHuffman(HuffmanNode *node ,unsigned char value, int *nMask){
 	HuffmanChild *cells = NULL, auxCell;
 	int numCells = 2, i = 0;
@@ -383,6 +391,8 @@ unsigned char searchHuffman(HuffmanNode *node ,unsigned char value, int *nMask){
 	return mask;
 }
 
+/*  Busca um codigo na tabela de Huffman.
+Retorno: 0 se encontrado, 1 caso contrario*/
 int searchTableHuff(unsigned char *nBits, unsigned char huff, int huffLen, HuffmanTable *table, int tableLen){
 	int i = 0;
 	for (i = 0; i < tableLen; ++i)
@@ -396,6 +406,8 @@ int searchTableHuff(unsigned char *nBits, unsigned char huff, int huffLen, Huffm
     return 1;
 }
 
+/* Insere codigo na tabela Huffman. 
+Retorno: tabela atualizada.*/
 HuffmanTable *insertOnHuffmanTable(unsigned char nBits, unsigned char huff, int huffLen, HuffmanTable *table, int *tableLen){
 	if(table == NULL){
 		(*tableLen) = 1;
