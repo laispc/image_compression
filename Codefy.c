@@ -211,7 +211,7 @@ unsigned char *getByteVector(Dlist_ *list,int listLen, int *finalLen,HuffmanNode
 	}
 	(*finalLen) = vectorLen;
 
-	printf("\nFinal length: %d \n",vectorLen );
+	/*printf("\nFinal length: %d \n",vectorLen );*/
 	return vector;
 }
 

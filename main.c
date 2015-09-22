@@ -6,9 +6,9 @@
 #include <unistd.h>
 
 #include "HuffmanCoding.h"
-#include "DiferenceCoding.h"
+#include "DCT.h"
 #include "Codefy.h"
-
+#include "DiferenceCoding.h"
 
 #define     DIF         1
 #define     DCT         2
@@ -65,7 +65,45 @@ int compare_image(Dlist_ *a,Dlist_ *b, int size){
 
 int main(int argc, char const *argv[])
 {
+	/* Declaracao de estruturas necessarias */
+
+    BITMAPINFOHEADER bitmapInfoHeader;
+    BITMAPFILEHEADER bitmapFileHeader;
+    unsigned char* image = NULL;
+    unsigned char* toWrite_g = NULL;
+    unsigned char* toWrite_b = NULL;
+    unsigned char* toWrite_r = NULL;
+    int toWriteLen_g = 0, toWriteLen_b = 0, toWriteLen_r = 0;
+    Dlist_ *image_g = NULL;
+    Dlist_ *image_b = NULL;
+    Dlist_ *image_r = NULL;
+
+    int numCells_g = 0, numCells_b = 0, numCells_r = 0;
+    HuffmanCell *list_g = NULL;
+    HuffmanCell *list_b = NULL;
+    HuffmanCell *list_r = NULL;
+    HuffmanNode *head_g = NULL;
+    HuffmanNode *head_b = NULL;
+    HuffmanNode *head_r = NULL;
+    HuffmanTable *table_g = NULL;
+    HuffmanTable *table_b = NULL;
+    HuffmanTable *table_r = NULL;
+    int tableLen_g = 0, tableLen_b = 0, tableLen_r = 0;
+
+    /*Dlist_ *Dlist = NULL;*/
+    /*unsigned char *total = NULL;*/
+    FILE *f;
+
+
 	/* Tratamento dos argumentos de entrada*/
+
+	char *inputFile = NULL;
+	char *inputExtension = NULL;
+	char *outFile = NULL;
+	char *outExtension = NULL;
+	char *algType = NULL;
+	int requetedAlg = 0;
+	int requestedAction = 0;
 	
 	/* Verifica numero de argumentos */
 	if (argc != 4)
@@ -75,7 +113,7 @@ int main(int argc, char const *argv[])
 	}
 
 	/* Verifica existencia do arquivo de entrada*/
-	char *inputFile = argv[1];
+	inputFile = (char*)argv[1];
 
 	if( access(inputFile, F_OK) == -1 )
 	{
@@ -83,16 +121,13 @@ int main(int argc, char const *argv[])
 	}
 
 	/* Verifica extensoes do arquivos de entrada e saida para escolher entre compressao e descompressao */
-	char *inputExtension;
-	inputExtension = strrchr(inputFile,'.');
+	inputExtension = (char*)strrchr(inputFile,'.');
 	printf("Arquivo de entrada: %s\n", inputFile);
 
-	char *outFile = argv[2];
+	outFile = (char*)argv[2];
 	printf("Arquivo de saida: %s\n", outFile);
-	char *outExtension;
-	outExtension = strrchr(outFile,'.');
+	outExtension = (char*)strrchr(outFile,'.');
 
-	int requestedAction;
 	if (inputExtension == NULL || outExtension == NULL)
 	{
 		printf("ERRO: Extensao de arquivo nao esfecificada. \n");
@@ -113,8 +148,7 @@ int main(int argc, char const *argv[])
 
 	/* Verifica o tipo de algoritmo escolhido */
 
-	char *algType = argv[3];
-	int requetedAlg;
+	algType = (char*)argv[3];
 	if (strcmp(algType,"-DIF") == 0 || strcmp(algType,"-dif") == 0)
 	{
 		requetedAlg = DIF;
@@ -141,38 +175,14 @@ int main(int argc, char const *argv[])
 		return -1;
 	}
 
-	/* Declaracao de estruturas necessarias */
-
-    BITMAPINFOHEADER bitmapInfoHeader;
-    BITMAPFILEHEADER bitmapFileHeader;
-    unsigned char* image = NULL;
-    unsigned char* toWrite_g = NULL;
-    unsigned char* toWrite_b = NULL;
-    unsigned char* toWrite_r = NULL;
-    int toWriteLen_g = 0, toWriteLen_b = 0, toWriteLen_r = 0;
-    Dlist_ *image_g = NULL;
-    Dlist_ *image_b = NULL;
-    Dlist_ *image_r = NULL;
-
-    Dlist_ *Dlist = (Dlist_*) malloc((bitmapInfoHeader.biSizeImage/3)*sizeof(Dlist_));
-    int numCells_g = 0, numCells_b = 0, numCells_r = 0;
-    HuffmanCell *list_g = NULL;
-    HuffmanCell *list_b = NULL;
-    HuffmanCell *list_r = NULL;
-    HuffmanNode *head_g = NULL;
-    HuffmanNode *head_b = NULL;
-    HuffmanNode *head_r = NULL;
-    HuffmanTable *table_g = NULL;
-    HuffmanTable *table_b = NULL;
-    HuffmanTable *table_r = NULL;
-    int tableLen_g = 0, tableLen_b = 0, tableLen_r = 0;
+    /*Dlist = (Dlist_*) malloc((bitmapInfoHeader.biSizeImage/3)*sizeof(Dlist_));*/
 
 /* Escolha entre compressao e descompressao */
 switch (requestedAction){
 case COMPRESS:
 	printf("Compressão iniciada\n");
 	/* Leitura da imagem */
-	image = LoadBitmapFile(argv[1],&bitmapFileHeader , &bitmapInfoHeader);
+	image = LoadBitmapFile((char*)argv[1],&bitmapFileHeader , &bitmapInfoHeader);
 
 	if (image == NULL) 
 		return 1;
@@ -254,16 +264,16 @@ case COMPRESS:
 	printf("Saving...\n");
 
 	writeOn(toWrite_r, toWrite_g, toWrite_b, toWriteLen_r, toWriteLen_g, toWriteLen_b,
-	bitmapInfoHeader, bitmapFileHeader, argv[2], table_g, table_b, table_r, tableLen_g, tableLen_b, tableLen_r);
+	bitmapInfoHeader, bitmapFileHeader, (char*)argv[2], table_g, table_b, table_r, tableLen_g, tableLen_b, tableLen_r);
 
 	printf("End\n");
 break;
 case DECOMPRESS:
 	printf("Descompressão iniciada\n");
 	readOff(&toWrite_r, &toWrite_g, &toWrite_b, &toWriteLen_r, &toWriteLen_g, &toWriteLen_b,
-		&bitmapInfoHeader, &bitmapFileHeader, argv[1], &table_g, &table_b, &table_r, &tableLen_g, &tableLen_b, &tableLen_r);
+		&bitmapInfoHeader, &bitmapFileHeader, (char*)argv[1], &table_g, &table_b, &table_r, &tableLen_g, &tableLen_b, &tableLen_r);
 
-	unsigned char *total = (unsigned char*)malloc((toWriteLen_g+toWriteLen_b+toWriteLen_r)*sizeof(unsigned char));
+	/*total = (unsigned char*)malloc((toWriteLen_g+toWriteLen_b+toWriteLen_r)*sizeof(unsigned char));*/
 
 	(image_r) = (Dlist_*)malloc((bitmapInfoHeader.biSizeImage/3)*sizeof(Dlist_));
 	(image_g) = (Dlist_*)malloc((bitmapInfoHeader.biSizeImage/3)*sizeof(Dlist_));
@@ -307,7 +317,6 @@ case DECOMPRESS:
 	/*printv(image,bitmapInfoHeader.biSizeImage);*/
 
 	printf("Saving...\n");
-	FILE *f;
 
 	f = fopen(argv[2],"w+");
 	fwrite(&(bitmapFileHeader.bfType), sizeof(unsigned short),1,f);
@@ -318,8 +327,7 @@ case DECOMPRESS:
 	/*fwrite(bitmapFileHeader, sizeof(BITMAPFILEHEADER),1,f);*/
 
 
-	/*read the bitmap info header*/
-	/*The header must be read parameter per parameter*/
+	/*Escrita do header do Bitmap*/
 	fwrite(&(bitmapInfoHeader.biSize), sizeof(unsigned int),1,f);
 	fwrite(&(bitmapInfoHeader.biWidth), sizeof(unsigned int),1,f);
 	fwrite(&(bitmapInfoHeader.biHeight), sizeof(unsigned int),1,f);

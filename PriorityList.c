@@ -2,19 +2,19 @@
 
 /*#define __DEBUG__*/
 
-/*Compare two PriorityCell__ structures. This is used in quicksort
-Return: > 0 if A > B, == 0 if A == B, < 0 if A < B*/
+/* Compara duas estruturas PriorityCell. Esta funcao e usada na quicksort.
+Retorno: > 0 if A > B, == 0 if A == B, < 0 if A < B */
 int compareConstructCrescent(const void *A,const void *B){
 	return (*(PriorityCell*)A).value - (*(PriorityCell*)B).value;
 }
 
-/*Compare two PriorityCell__ structures. This is used in quicksort
-Return: > 0 if A < B, == 0 if A == B, < 0 if A > B*/
+/* Compara duas estruturas PriorityCell. Esta funcao e usada na quicksort.
+Retorno: > 0 if A < B, == 0 if A == B, < 0 if A > B*/
 int compareConstructDecrescent(const void *A,const void *B){
 	return (*(PriorityCell*)B).value - (*(PriorityCell*)A).value;
 }
 
-/*Generate PriorityList*/
+/* Gera lista de prioridades para a geracao da arvore de Huffman */
 PriorityHead *generatePriorityList(HuffmanCell *cells, int numCells){
 #ifdef __DEBUG__
 	printf("Generating Priority List\n");
@@ -36,17 +36,20 @@ PriorityHead *generatePriorityList(HuffmanCell *cells, int numCells){
 	return head;
 }
 
+/* Retorna numero de celulas da lista. */
 int isEmptyPriorityList(PriorityHead *head){
 	return head->numCells;
 }
 
-/*Pop an Auxiliar cell of the list*/
+/* Desempilha uma celula da lista de prioridades. */
 PriorityCell popPriorityList(PriorityHead *head){
+	PriorityCell cell;
 	head->numCells--;
-	PriorityCell cell = head->list[head->numCells];
+	cell = head->list[head->numCells];
 	return cell;
 }
 
+/* Insere uma celula na lista de prioridades. */
 void insertPriorityCell(PriorityHead *head, PriorityCell cell){
 	head->numCells++;
 	head->list[head->numCells-1] = cell;

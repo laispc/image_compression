@@ -1,10 +1,10 @@
+/*!		DiferenceCoding.c		*/
+/*
+Contem funções para a aplicação do código de diferenças.
+*/
 #include "DiferenceCoding.h"
 
-unsigned char subtractValue(Dlist_* bitmapImage, int imageIdx) {
-
-	return bitmapImage[imageIdx].value-bitmapImage[imageIdx-1].value;
-}
-
+/*Determina o tamanho de bits que um determinado valor possui*/
 int numberSize(unsigned char value){
   double bits=0, den = 0; 
   if(value<0) {
@@ -20,7 +20,7 @@ int numberSize(unsigned char value){
   return (unsigned char) bits;
 }
 
-
+/*Divide a imagem em RGB, a cor a ser salva depende da entrada da função*/
 Dlist_* divRGB(unsigned char *image, unsigned int size, char c){
   int i = 0, imageIdx = 0, color = 0;
   Dlist_ *Dlist;
@@ -43,17 +43,15 @@ Dlist_* divRGB(unsigned char *image, unsigned int size, char c){
   Dlist[0].value = image[color];
   Dlist[0].numBits = numberSize(Dlist[0].value);
  i = 1;
-  /*printf("%d ", image[0]);*/
   for(imageIdx = 3; imageIdx < size; imageIdx += 3) {
     Dlist[i].value = image[imageIdx + color];
     Dlist[i].numBits = numberSize(Dlist[i].value);
-    /*printf("%d ", image[imageIdx]);*/
     i++;
   }
   return Dlist;
 }
 
-
+/*Aplicação do algoritmo de diferenças,e determina o tamanho de cada valor obtido na diferença*/
 void diferenceCoding(Dlist_ *Dlist, unsigned int size) {
   int imageIdx = 0;
   Dlist[0].value = Dlist[0].value;
@@ -68,7 +66,7 @@ for(imageIdx = size/3 - 1; imageIdx > 0; imageIdx--) {
 }
 
 
-
+/*Aplicação do inversa do algoritmo de diferenças*/
 void DCoding( Dlist_ *Dlist_r,Dlist_ *Dlist_g, Dlist_ *Dlist_b,unsigned int size) {
   int imageIdx = 0;
 
@@ -83,6 +81,7 @@ void DCoding( Dlist_ *Dlist_r,Dlist_ *Dlist_g, Dlist_ *Dlist_b,unsigned int size
   }
 }
 
+/*Concatena os arquivos RGB em uma imagem*/
 void concRGB(unsigned char* image, Dlist_ *Dlist_r,Dlist_ *Dlist_g, Dlist_ *Dlist_b,unsigned int size){
   int i = 1, imageIdx = 0;  
   image[0] = Dlist_b[0].value;

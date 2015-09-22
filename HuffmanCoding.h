@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "DiferenceCoding.h"
+/*#include "DiferenceCoding.h"*/
+#include "Dlist.h"
+
 
 /* Tabela de referencia com os codigos Huffman e seus tamanhos, para salvar e carregar o arquivo*/
 typedef struct HuffmanTable{

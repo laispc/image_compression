@@ -2,14 +2,14 @@ Multimídia e Hipermídia
 Trabalho 1 - Compressão de imagem digital
 
 Nomes:
-Laís Pessine do Carmo	n usp: 7546760
-Rafael Seiji Ishibe	n usp: 7173570
+Laís Pessine do Carmo	nº usp: 7546760
+Rafael Seiji Ishibe		nº usp: 7173570
 
 /*--------------------------- Compilador utilizado ---------------------------*/
 
 A versão do compilador utilizada foi a GCC 4.9.2;
 
-/*-------------------------- Bibliotecas adicionais --------------------------*/
+/*--------------------------- Bibliotecas adicionais -------------------------*/
 
 Nenhuma biblioteca adicional foi utilizada.
 
@@ -33,6 +33,9 @@ Algoritimo de diferenças:
 
 Algoritmo DCT
 
+	No algoritmo DCT, os valores encontrados na DCT de uma imagem são armazenados em uma lista (array) onde cada elemento é uma struct. Esta struct contém o valor da DCT bem como o número de bits correspondente.
+	Para a manipulaçao dos dados foi criado uma lista com o tipo double, para tratar e manipular os dados em ponto flutuante.
+
 Algoritmo de Huffman
 
 	Uma struct serve de tabela de referencia, armazenando os codigos Huffman gerados e seus tamanhos, sendo usada para salvar e carregar o arquivo.
@@ -45,15 +48,19 @@ Algoritmo de Huffman
 
 /*--------------------------------- Utilização --------------------------------*/
 
+	Para compilação em Linux, basta executar: 
+
+	$ make
+
 	Após compilação do arquivo MakeFile utilizando o comando make na linha de comnado, a linha para a execução do código deve ter o seguinte formato:
 
-./huff arquivo_entrada arquivo_saida alg
+	$ ./huff arquivo_entrada arquivo_saida alg
 
 Onde
 
-- arquivo_entrada é a o nome do arquivo de entrada com sua extensão (.bmp ou .huff),
+- caminho_entrada é a o caminho do arquivo de entrada com sua extensão (.bmp ou .huff),
 
-- arquivo_saida é a o nome do arquivo de saida com sua extensão (.bmp ou .huff),
+- caminho_saida é a o caminho do arquivo de saida com sua extensão (.bmp ou .huff),
 
 - alg é a opção de algoritmo que se deseja utilizar, podendo ser:
 	-dif (ou -DIF): algoritmo de diferenças
@@ -62,8 +69,14 @@ Onde
 	-dct+dif (ou -DCT+DIF): algoritmo DCT + algoritmo de diferenças
 
 - Compressão: ocorre quando o arquivo_entrada tiver a extensão .bmp e o de saída a .huff.
+ex) $ ./huff testes/01_lena.bmp testes/01_lena.huff -dif
 
 - Descompressão: ocorre quando o arquivo_entrada tiver a extensão .huff e o de saída a .bmp.
+ex) $ ./huff testes/01_lena.huff testes/01_lena_out.bmp -dif
 
 	Caso a entrada esteja em um formato diferente do descrito acima, o programa informará um erro indicando a falha encontrada.
 	Caso a entrada esteja correta, o programa informará detalhes do tipo de procedimento escolhido e o realizará em seguida.
+
+	Para remover os arquivos .o, basta executar:
+
+	$ make clean
