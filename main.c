@@ -94,9 +94,7 @@ int main(int argc, char const *argv[])
     /*unsigned char *total = NULL;*/
     FILE *f;
 
-
 	/* Tratamento dos argumentos de entrada*/
-
 	char *inputFile = NULL;
 	char *inputExtension = NULL;
 	char *outFile = NULL;
@@ -181,7 +179,9 @@ int main(int argc, char const *argv[])
 switch (requestedAction){
 case COMPRESS:
 	printf("Compressão iniciada\n");
+	
 	/* Leitura da imagem */
+
 	image = LoadBitmapFile((char*)argv[1],&bitmapFileHeader , &bitmapInfoHeader);
 
 	if (image == NULL) 
@@ -246,7 +246,7 @@ case COMPRESS:
 	head_g = generateTree(head_g, list_g, numCells_g);
 	head_b = generateTree(head_b, list_b, numCells_b);
 	head_r = generateTree(head_r, list_r, numCells_r);
-	printf("End Huffman\n");
+	/*printf("End Huffman\n");*/
 	/*if (head == NULL)
 	{
 	return 1;
